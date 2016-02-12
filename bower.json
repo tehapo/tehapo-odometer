@@ -4,7 +4,7 @@
     "Teemu Pöntelin <tehapo@gmail.com>"
   ],
   "description": "Simple odometer style animated number display.",
-  "license": "Apache-2",
+  "license": "Apache-2.0",
   "keywords": [
     "web-components",
     "web-component",
