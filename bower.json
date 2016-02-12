@@ -1,0 +1,25 @@
+{
+  "name": "tehapo-odometer",
+  "authors": [
+    "Teemu Pöntelin <tehapo@gmail.com>"
+  ],
+  "description": "Simple odometer style animated number display.",
+  "license": "Apache-2",
+  "keywords": [
+    "web-components",
+    "web-component",
+    "polymer",
+    "odometer",
+    "number"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "^1.2.4"
+  }
+}

@@ -1,0 +1,39 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="tehapo-odometer-digit.html">
+
+<dom-module id="tehapo-odometer">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <template is="dom-repeat" items="[[_digits]]">
+      <tehapo-odometer-digit value="[[item]]"></tehapo-odometer-digit>
+    </template>
+  </template>
+  <script>
+    Polymer({
+      is: 'tehapo-odometer',
+
+      properties: {
+        value: {
+          type: Number
+        },
+
+        _digits: {
+          computed: '_computeDigits(value)'
+        }
+      },
+
+      _computeDigits: function(value) {
+        var digits = [];
+        while (value > 0) {
+          digits.push(value % 10);
+          value = ~~(value / 10);
+        }
+        return digits.reverse();
+      }
+    });
+  </script>
+</dom-module>

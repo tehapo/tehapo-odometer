@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="../tehapo-odometer.html">
+
+    <style is="custom-style">
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: Roboto, sans-serif;
+        font-size: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .styled {
+        --tehapo-odometer-digit: {
+          background: #333;
+          color: #fff;
+          border-radius: 4px;
+          padding: 0 0.2em;
+        }
+      }
+      tehapo-odometer {
+        font-size: 40px;
+      }
+      div {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <p>Unstyled</p>
+      <tehapo-odometer value="1523294"></tehapo-odometer>
+    </div>
+    <div>
+      <p><code>--tehapo-odometer-digit</code> mixin applied</p>
+      <tehapo-odometer value="1523294" class="styled"></tehapo-odometer>
+    </div>
+
+    <script>
+      setInterval(function() {
+        var om = document.querySelectorAll('tehapo-odometer');
+        Array.prototype.forEach.call(om, function(o) {
+          o.value += ~~(Math.random() * 50000) - 25000;
+        });
+      }, 1000);
+    </script>
+  </body>
+</html>

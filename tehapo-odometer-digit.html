@@ -1,0 +1,115 @@
+<dom-module id="tehapo-odometer-digit">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+        line-height: 1;
+        height: 1em;
+        @apply(--tehapo-odometer-digit);
+      }
+      #next {
+        position: absolute;
+      }
+      .animate {
+        transition: all 400ms;
+      }
+    </style>
+    <div id="next">[[next]]</div>
+    <div id="current" on-transitionend="_transitionEnd">[[current]]</div>
+  </template>
+  <script>
+    Polymer({
+      is: 'tehapo-odometer-digit',
+
+      properties: {
+        value: {
+          type: Number,
+          observer: '_animate'
+        },
+
+        current: {
+          type: Number
+        },
+
+        next: {
+          type: Number
+        },
+
+        _transitioning: {
+          type: Boolean
+        },
+
+        _buffer: {
+          type: Array,
+          value: function() {
+            return [];
+          }
+        }
+      },
+
+      attached: function() {
+        this.transform('translateY(-100%)', this.$.next);
+        this.transform('translateY(0)', this.$.current);
+      },
+
+      _setAnimationEnabled: function(enabled) {
+        this.toggleClass('animate', enabled, this.$.next);
+        this.toggleClass('animate', enabled, this.$.current);
+      },
+
+      _flushCssChanges: function() { 
+        // Trigger a reflow, flushing CSS changes.
+        var ignored = this.$.next.offsetHeight;
+      },
+
+      _transitionEnd: function() {
+        this.current = this.next;
+        this._setAnimationEnabled(false);
+        this.transform('translateY(-100%)', this.$.next);
+        this.transform('translateY(0)', this.$.current);
+        this._flushCssChanges();
+
+        this._transitioning = false;
+        if (this._buffer.length > 0) {
+          this._animate(this._buffer.shift());
+        }
+      },
+
+      _animate: function(nextValue) {
+        if (this.current === undefined) {
+          this.current = nextValue;
+          return;
+        }
+        if (nextValue === this.current) {
+          return;
+        }
+        if (this._transitioning) {
+          this._buffer.push(nextValue);
+          return;
+        }
+
+        this._transitioning = true;
+        this._setAnimationEnabled(false);
+        this.next = nextValue;
+
+        // Set starting position.
+        var translateCurrent = '100%';
+        if (this.next > this.current || this.next === 0) {
+          this.transform('translateY(-100%)', this.$.next);
+        } else {
+          translateCurrent = '-100%';
+          this.transform('translateY(100%)', this.$.next);
+        }
+        this._flushCssChanges();
+
+
+        // Do the animation.
+        this._setAnimationEnabled(true);
+        this.transform('translateY(0)', this.$.next);
+        this.transform('translateY(' + translateCurrent + ')', this.$.current);
+      }
+    });
+  </script>
+</dom-module>
