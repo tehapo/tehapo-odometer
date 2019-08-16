@@ -28,7 +28,7 @@
 
       _computeDigits: function(value) {
         var digits = [];
-        while (value > 0) {
+        while (value > 0 || !digits.length) {
           digits.push(value % 10);
           value = ~~(value / 10);
         }
